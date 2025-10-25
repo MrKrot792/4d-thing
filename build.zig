@@ -22,4 +22,11 @@ pub fn build(b: *std.Build) void {
     if (b.args) |args| {
         run_cmd.addArgs(args);
     }
+
+    const zglfw = b.dependency("zglfw", .{});
+    exe.root_module.addImport("zglfw", zglfw.module("root"));
+    if (target.result.os.tag != .emscripten) exe.linkLibrary(zglfw.artifact("glfw"));
+
+    const zgl = b.dependency("zgl", .{.target = target, .optimize = optimize});
+    exe.root_module.addImport("zgl", zgl.module("zgl"));
 }
