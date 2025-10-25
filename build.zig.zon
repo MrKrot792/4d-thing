@@ -1,0 +1,14 @@
+.{
+    .name = ._4d_thing,
+    .version = "0.0.0",
+    .fingerprint = 0x552acec4e08fe4cf, // Changing this has security and trust implications.
+    .minimum_zig_version = "0.15.1",
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+        // For example...
+        //"LICENSE",
+        //"README.md",
+    },
+}
