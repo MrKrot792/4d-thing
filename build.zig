@@ -11,6 +11,8 @@ pub fn build(b: *std.Build) void {
             .target = target,
             .optimize = optimize,
         }),
+        .use_lld = true,
+        .use_llvm = true,
     });
 
     b.installArtifact(exe);
@@ -26,6 +28,7 @@ pub fn build(b: *std.Build) void {
     const zglfw = b.dependency("zglfw", .{});
     exe.root_module.addImport("zglfw", zglfw.module("root"));
     if (target.result.os.tag != .emscripten) exe.linkLibrary(zglfw.artifact("glfw"));
+    zglfw.module("root").sanitize_c = .off;
 
     const zgl = b.dependency("zgl", .{.target = target, .optimize = optimize});
     exe.root_module.addImport("zgl", zgl.module("zgl"));
