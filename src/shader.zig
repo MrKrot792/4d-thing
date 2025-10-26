@@ -29,7 +29,7 @@ pub fn createProgram(allocator: std.mem.Allocator) !gl.Program {
 }
 
 /// Caller is responsible for freeing the memory
-fn readFile(allocator: std.mem.Allocator, file_path: [] const u8) ![]u8 {
+fn readFile(allocator: std.mem.Allocator, file_path: []const u8) ![]u8 {
     var file = try std.fs.cwd().openFile(file_path, .{});
     defer file.close();
     const file_size = try file.getEndPos();

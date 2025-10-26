@@ -24,4 +24,3 @@ pub fn getAllocator() AllocatorInformation {
 pub fn debugDeinit() std.heap.Check {
     return debug_allocator.deinit();
 }
-

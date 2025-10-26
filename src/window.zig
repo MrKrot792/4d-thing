@@ -23,8 +23,7 @@ pub fn deinitGlfw(window: *glfw.Window) void {
     window.destroy();
 }
 
-fn framebuffer_size_callback(window: *glfw.Window, width: c_int, height: c_int) callconv(.c) void
-{
+fn framebuffer_size_callback(window: *glfw.Window, width: c_int, height: c_int) callconv(.c) void {
     _ = window;
     gl.viewport(0, 0, @intCast(width), @intCast(height));
 }

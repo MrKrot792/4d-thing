@@ -3,14 +3,10 @@ const std = @import("std");
 const Fps = @This();
 const Timer = std.time.Timer;
 var frames_count: u32 = 0;
-var frames:       u32 = 0;
-var elapsed:      f32 = 0;
+var frames: u32 = 0;
+var elapsed: f32 = 0;
 
-pub const FpsInfo = struct {
-    fps: u32,
-    fps_average: f32,
-    delta: f32
-};
+pub const FpsInfo = struct { fps: u32, fps_average: f32, delta: f32 };
 
 /// It is not neccesary to call this function every frame, although it is recommended.
 pub fn frameStart(timer: *Timer) void {
