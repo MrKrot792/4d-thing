@@ -61,17 +61,6 @@ pub fn main() !void {
     }
 }
 
-fn readFile(allocator: std.mem.Allocator, file_path: [] const u8) ![]u8 {
-    var file = try std.fs.cwd().openFile(file_path, .{});
-    defer file.close();
-    const file_size = try file.getEndPos();
-
-    var reader = file.reader(&.{});
-    const file_content = try reader.interface.readAlloc(allocator, file_size);
-
-    return file_content;
-}
-
 fn getProcAddressWrapper(comptime _: type, symbolName: [:0]const u8) ?*const anyopaque {
     return glfw.getProcAddress(symbolName);
 }
