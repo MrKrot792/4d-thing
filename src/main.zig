@@ -4,6 +4,7 @@ const allocator_selector = @import("allocator_selector.zig");
 const gl = @import("zgl");
 const shader = @import("shader.zig");
 const windows = @import("window.zig");
+const fps = @import("fps.zig");
 
 pub fn main() !void {
     // Allocator
@@ -24,14 +25,14 @@ pub fn main() !void {
     // gl
     const vertices = [_]f32{
         -0.5, -0.5, 0.0,
-        0.5, -0.5, 0.0,
-        0.0,  0.5, 0.0,
+         0.5, -0.5, 0.0,
+         0.0,  0.5, 0.0,
     };
 
     try gl.loadExtensions(void, getProcAddressWrapper);
 
-    const shaderProgram = try shader.createProgram(allocator);
-    defer shaderProgram.delete();
+    const shader_program = try shader.createProgram(allocator);
+    defer shader_program.delete();
 
     const vbo = gl.genBuffer();
     gl.bindBuffer(vbo, .array_buffer);
@@ -43,21 +44,27 @@ pub fn main() !void {
     gl.vertexAttribPointer(0, 3, .float, false, 3 * @sizeOf(f32), 0);
     gl.enableVertexAttribArray(0);
 
+    var timer = try std.time.Timer.start();
+
     // Main loop
     while (!window.shouldClose()) {
+        fps.frameStart(&timer);
         glfw.pollEvents();
         
         // Rendering
-        std.debug.print("Rendering...\n", .{});
-
         gl.clearColor(0.2, 0.3, 0.3, 1.0);
         gl.clear(.{.color = true});
 
-        gl.useProgram(shaderProgram);
+        gl.useProgram(shader_program);
         gl.bindVertexArray(vao);
         gl.drawArrays(.triangles, 0, 3);
 
         window.swapBuffers();
+
+        // FPS stuff
+        const fps_info = fps.frameEnd(&timer);
+        std.debug.print("{d}\n", .{fps_info.delta});
+        std.debug.print("{d}\n", .{fps_info.fps});
     }
 }
 

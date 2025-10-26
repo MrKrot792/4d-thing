@@ -13,6 +13,8 @@ pub fn initGlfw() !*glfw.Window {
 
     std.debug.print("Created a window\n", .{});
 
+    glfw.swapInterval(0); // Turning v-sync off
+
     return window;
 }
 
