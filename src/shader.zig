@@ -5,14 +5,14 @@ const gl = @import("zgl");
 pub fn createProgram(allocator: std.mem.Allocator) !gl.Program {
     // Vertex shader section
     const vertexShader = gl.createShader(.vertex);
-    const vertexShaderSource = try readFile(allocator, "./assets/vertex.vert");
+    const vertexShaderSource = try readFile(allocator, "./assets/shaders/vertex.vert");
     defer allocator.free(vertexShaderSource);
     gl.shaderSource(vertexShader, 1, &vertexShaderSource);
     gl.compileShader(vertexShader);
 
     // Fragment shader section
     const fragmentShader = gl.createShader(.fragment);
-    const fragmentShaderSource = try readFile(allocator, "./assets/fragment.frag");
+    const fragmentShaderSource = try readFile(allocator, "./assets/shaders/fragment.frag");
     defer allocator.free(fragmentShaderSource);
     gl.shaderSource(fragmentShader, 1, &fragmentShaderSource);
     gl.compileShader(fragmentShader);
