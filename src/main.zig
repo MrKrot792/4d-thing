@@ -5,6 +5,7 @@ const gl = @import("zgl");
 const shader = @import("shader.zig");
 const windows = @import("window.zig");
 const fps = @import("fps.zig");
+const model = @import("model.zig");
 
 pub fn main() !void {
     // Allocator
@@ -18,15 +19,15 @@ pub fn main() !void {
         }
     };
 
-    // glfw 
+    // glfw
     const window = try windows.initGlfw();
     defer windows.deinitGlfw(window);
 
     // gl
     const vertices = [_]f32{
         -0.5, -0.5, 0.0,
-         0.5, -0.5, 0.0,
-         0.0,  0.5, 0.0,
+        0.5,  -0.5, 0.0,
+        0.0,  0.5,  0.0,
     };
 
     try gl.loadExtensions(void, getProcAddressWrapper);
@@ -46,14 +47,18 @@ pub fn main() !void {
 
     var timer = try std.time.Timer.start();
 
+    // Critical line
+    const m = try model.model.initFromFile("./assets/cube.obj");
+    defer m.deinit();
+
     // Main loop
     while (!window.shouldClose()) {
         fps.frameStart(&timer);
         glfw.pollEvents();
-        
+
         // Rendering
         gl.clearColor(0.2, 0.3, 0.3, 1.0);
-        gl.clear(.{.color = true});
+        gl.clear(.{ .color = true });
 
         gl.useProgram(shader_program);
         gl.bindVertexArray(vao);
