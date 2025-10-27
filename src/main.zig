@@ -48,8 +48,8 @@ pub fn main() !void {
     var timer = try std.time.Timer.start();
 
     // Critical line
-    const m = try model.model.initFromFile("./assets/cube.obj");
-    defer m.deinit();
+    var m = try model.model.initFromFile("./assets/cube.obj", allocator);
+    defer m.deinit(allocator);
 
     // Main loop
     while (!window.shouldClose()) {
