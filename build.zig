@@ -32,4 +32,10 @@ pub fn build(b: *std.Build) void {
 
     const zgl = b.dependency("zgl", .{ .target = target, .optimize = optimize });
     exe.root_module.addImport("zgl", zgl.module("zgl"));
+
+    const zm = b.dependency("zm", .{
+        .target = target,
+        .optimize = optimize,
+    });
+    exe.root_module.addImport("zm", zm.module("zm"));
 }
