@@ -93,11 +93,13 @@ pub const model = struct {
             for (this.vertices.items) |value| {
                 std.debug.print("- {any}\n", .{value});
             }
+            std.debug.print("Size: {}\n", .{this.vertices.items.len});
 
             std.debug.print("Indices: \n", .{});
             for (this.indices.items) |value| {
                 std.debug.print("- {any}\n", .{value});
             }
+            std.debug.print("Size: {}\n", .{this.indices.items.len});
         }
 
         this.vertices.deinit(allocator);
@@ -109,5 +111,36 @@ pub const model = struct {
             .vertices = @ptrCast(this.vertices.items), 
             .indices = @ptrCast(this.indices.items) 
         };
+    }
+
+    /// The name is probably a placeholder, but who knows....
+    pub fn makeIt4D(this: *model, allocator: std.mem.Allocator) !void {
+        var old_vertices: std.ArrayList(vec4) = try .clone(this.vertices, allocator);
+        defer old_vertices.deinit(allocator);
+
+        for (old_vertices.items) |value| {
+            var result: vec4 = vec4{0, 0, 0, 0};
+            result[0] = value[0];
+            result[1] = value[1];
+            result[2] = value[2];
+            result[3] = 2; // A bit further in 4D basically
+
+            try this.vertices.append(allocator, result);
+        }
+
+        var old_indices: std.ArrayList(uvec3) = try .clone(this.indices, allocator);
+        defer old_indices.deinit(allocator);
+
+        const size: u32 = @intCast(old_vertices.items.len);
+
+        for (old_indices.items) |value| {
+            const result: uvec3 = uvec3{
+                value[0] + size,
+                value[1] + size,
+                value[2] + size,
+            };
+
+            try this.indices.append(allocator, result);
+        }
     }
 };

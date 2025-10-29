@@ -39,6 +39,8 @@ pub fn main() !void {
     var m = try model.model.initFromFile("./assets/cube.obj", allocator);
     defer m.deinit(allocator);
 
+    try m.makeIt4D(allocator); // We make it 4D!
+
     const modelInfo = m.packIntoModelInfo();
 
     // Sending it to the GPU
