@@ -27,3 +27,9 @@ fn framebuffer_size_callback(window: *glfw.Window, width: c_int, height: c_int) 
     _ = window;
     gl.viewport(0, 0, @intCast(width), @intCast(height));
 }
+
+pub fn getAspect(window: *glfw.Window) f32 {
+    const size = window.getSize();
+
+    return @as(f32, @floatFromInt(size[0])) / @as(f32, @floatFromInt(size[1]));
+}

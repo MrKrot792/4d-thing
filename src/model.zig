@@ -1,7 +1,13 @@
 const std = @import("std");
+const builtin = @import("builtin");
 
-pub const vec4: type = @Vector(4, f32);
-pub const uvec3: type = @Vector(3, u32);
+pub const vec4: type = [4]f32;
+pub const uvec3: type = [3]u32;
+
+pub const modelInfo = struct {
+    vertices: []f32,
+    indices: []u32,
+};
 
 pub const model = struct {
     vertices: std.ArrayList(vec4),
@@ -59,7 +65,8 @@ pub const model = struct {
                         if (next == null) break;
 
                         // In this case, `next` is always a num
-                        num_buffer[i] = try std.fmt.parseUnsigned(u32, next.?, 10);
+                        num_buffer[i] = try std.fmt.parseUnsigned(u32, next.?, 10) - 1; // -1 because blender thought it was really funny to
+                                                                                        // export indices shifted
                     }
 
                     try result.indices.append(allocator, num_buffer);
@@ -81,17 +88,26 @@ pub const model = struct {
     }
 
     pub fn deinit(this: *model, allocator: std.mem.Allocator) void {
-        std.debug.print("Vertices: \n", .{});
-        for (this.vertices.items) |value| {
-            std.debug.print("- {any}\n", .{value});
-        }
+        if (builtin.mode == .Debug) {
+            std.debug.print("Vertices: \n", .{});
+            for (this.vertices.items) |value| {
+                std.debug.print("- {any}\n", .{value});
+            }
 
-        std.debug.print("Indices: \n", .{});
-        for (this.indices.items) |value| {
-            std.debug.print("- {any}\n", .{value});
+            std.debug.print("Indices: \n", .{});
+            for (this.indices.items) |value| {
+                std.debug.print("- {any}\n", .{value});
+            }
         }
 
         this.vertices.deinit(allocator);
         this.indices.deinit(allocator);
+    }
+
+    pub fn packIntoModelInfo(this: *model) modelInfo {
+        return .{ 
+            .vertices = @ptrCast(this.vertices.items), 
+            .indices = @ptrCast(this.indices.items) 
+        };
     }
 };
