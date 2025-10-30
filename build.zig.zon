@@ -2,10 +2,6 @@
     .name = ._4d_thing,
     .version = "0.0.0",
     .dependencies = .{
-        .zglfw = .{
-            .url = "git+https://github.com/zig-gamedev/zglfw#6034a5623312c58bf5e64c1a2b686691c28575f4",
-            .hash = "zglfw-0.10.0-dev-zgVDNPKyIQCBi-wv_vxkvIQq1u0bP4D56Wszx_2mszc7",
-        },
         .zgl = .{
             .url = "git+https://github.com/ziglibs/zgl#caf811fb8b778184128772e57dfcb96be2351c43",
             .hash = "zgl-1.1.0-p_NpAJJECgDSDHYHH_W6rX0snxnFoJ4JZZ0FV5_vqjjy",
@@ -13,6 +9,10 @@
         .zm = .{
             .url = "git+https://github.com/griush/zm#b5d70485dfc78baa9251a06a844d860fd00e9bcf",
             .hash = "zm-0.4.0-cLX-WdndAACqPRGqhCAsd65iTajgaVVwrXhoLUQFKTOt",
+        },
+        .zglfw = .{
+            .url = "git+https://github.com/zig-gamedev/zglfw#6034a5623312c58bf5e64c1a2b686691c28575f4",
+            .hash = "zglfw-0.10.0-dev-zgVDNPKyIQCBi-wv_vxkvIQq1u0bP4D56Wszx_2mszc7",
         },
     },
     .fingerprint = 0x552acec4e08fe4cf, // Changing this has security and trust implications.
