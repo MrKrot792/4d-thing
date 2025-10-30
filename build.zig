@@ -23,7 +23,7 @@ pub fn build(b: *std.Build) void {
         run_cmd.addArgs(args);
     }
 
-    const zglfw = b.dependency("zglfw", .{});
+    const zglfw = b.dependency("zglfw", .{ .target = target, .optimize = optimize });
     var zglfw_module = zglfw.module("root");
     zglfw_module.sanitize_c = .full;
     exe.root_module.addImport("zglfw", zglfw_module);
