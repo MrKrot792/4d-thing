@@ -105,9 +105,6 @@ pub fn main() !void {
         std.debug.print("{d}\n", .{fps_info.delta});
         std.debug.print("{d}\n", .{fps_info.fps});
     }
-
-    std.debug.print("vertices: {any}\n", .{modelInfo.vertices});
-    std.debug.print("indices: {any}\n", .{modelInfo.indices});
 }
 
 fn getProcAddressWrapper(comptime _: type, symbolName: [:0]const u8) ?*const anyopaque {
